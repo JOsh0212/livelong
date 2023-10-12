@@ -1,12 +1,9 @@
 package world.neverdie.livelong.bookreview.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.awt.print.Book;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
