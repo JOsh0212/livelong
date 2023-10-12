@@ -1,4 +1,14 @@
-INSERT INTO book_category(kdc, kdc_name, major_code, middle_code) -- category 기본 데이터
+-- 사용자 정보
+
+-- BookReadingMethod(책 읽은 도구)
+INSERT INTO book_reading_method (id, tool_name) VALUES (10, '소장도서');    -- 000000 소장도서
+INSERT INTO book_reading_method (id, tool_name) VALUES (100, '기타 대여'); -- 000100 기타 대여
+INSERT INTO book_reading_method (id, tool_name) VALUES (1000, '전자도서(EBOOK)');  -- 001000 전자도서(EBOOK)
+INSERT INTO book_reading_method (id, tool_name) VALUES (10000, '대학 및 사립 도서관'); -- 010000 대학 및 사립 도서관
+INSERT INTO book_reading_method (id, tool_name) VALUES (100000, '도서관대여');  -- 100000 도서관대여
+
+-- BookCategory(책 카테고리) 기본 데이터
+INSERT INTO book_category(kdc, kdc_name, major_code, middle_code)
 VALUES ('000', '총류', NULL, NULL),
        ('001', '지식 및 학문 일반', '000', '000'),
        ('002', '[미사용]', '000', '000'),
@@ -999,3 +1009,10 @@ VALUES ('000', '총류', NULL, NULL),
        ('997', '[미사용]', '900', '990'),
        ('998', '주제별 전기', '900', '990'),
        ('999', '계보, 족보', '900', '990');
+
+-- BookRatingSection(책 별점 카테고리)
+insert into book_rating_section (book_category_kdc,first_rating_name,second_rating_name,third_rating_name,fourth_rating_name,fifth_rating_name)
+values ('813','구성','인물','감동','유머','생각거리'),
+       ('814','가독성','문장','감동','유머','생각거리'),
+       ('400','구성','난이도','전문성','유머','생각거리'),
+       ('325','구성','동기부여','전문성','유용함','흥미');

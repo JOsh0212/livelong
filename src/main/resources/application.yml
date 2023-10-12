@@ -24,3 +24,6 @@ spring:
   sql:
     init:
       mode: always
+  data.rest:
+      base-path: /book
+      detection-strategy: annotated
