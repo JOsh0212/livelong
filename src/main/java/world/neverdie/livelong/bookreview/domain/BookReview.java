@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
 import world.neverdie.livelong.bookreview.dto.ReadingStrategies;
+import world.neverdie.livelong.reviewer.domain.Reviewer;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,9 +17,8 @@ import java.util.Objects;
 @ToString
 @Table(indexes = {
         @Index(columnList = "title"),
-        @Index(columnList = "startedReadingDate"),
-        @Index(columnList = "endReadingDate"),
-        @Index(columnList = "recordDate"),
+        @Index(columnList = "startDate"),
+        @Index(columnList = "endDate"),
         @Index(columnList = "readingStrategies"),
         @Index(columnList = "oneLineReview"),
 })
@@ -27,41 +28,46 @@ public class BookReview {   // 독후감 테이블
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;    //독후감 아이디
 
-    @Setter private Long userId;   // 사용자 아이디 TODO 나중에 사용자 연결할 것
+    @Setter @ManyToOne(optional = false) private Reviewer reviewer;
     @Setter @Column(columnDefinition = "VARCHAR(1000) CHARACTER SET UTF8") private String title;   // 리뷰 타이틀
     @Setter @ManyToOne(optional = false) private BookInfo bookInfo;  // 책정보
-    @Setter private LocalDateTime startedReadingDate;   // 읽기 시작한 날
-    @Setter private LocalDateTime endReadingDate;   // 다 읽은날
-    @Setter private LocalDateTime recordDate;   // 기록날짜
-    @Setter private int toolId;    //읽은 방법 TODO 독서도구 -> 책카테고리랑 비슷하게 할 예정
+    @Setter private LocalDateTime startDate;   // 읽기 시작한 날
+    @Setter private LocalDateTime endDate;   // 다 읽은날
+    @Setter @OneToOne private BookReadingMethod bookReadingMethod;    //읽은 방법
     @Setter private ReadingStrategies readingStrategies;    // 독서 전략
-    @Setter private int bookRate;   // 별점 TODO 테이블로 뺄 예정
+    @Setter @OneToOne(optional = false) private BookRate bookRate;   // 별점
     @Setter @Column(length = 1000) private String oneLineReview;   //한 줄 리뷰
     @Setter private String readingReason; //책 선정이유
     @Setter private String bookContent; //책 비고
 
     //메타데이터
-    @CreatedBy private LocalDateTime createdAt;
-    @LastModifiedDate private LocalDateTime modifiedAt;
+    @CreatedBy @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @Column(updatable = false) private LocalDateTime createdAt;
+    @LastModifiedDate @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) private LocalDateTime modifiedAt;
 
     protected BookReview() {}
 
-    private BookReview(Long userId, String title, BookInfo bookInfo, LocalDateTime startedReadingDate, LocalDateTime endReadingDate, LocalDateTime recordDate, int toolId, ReadingStrategies readingStrategies, int bookRate, String oneLineReview, String readingReason, String bookContent) {
-        this.userId = userId;
+    private BookReview(Reviewer reviewer, String title, BookInfo bookInfo, LocalDateTime startDate, LocalDateTime endDate, BookReadingMethod bookReadingMethod, ReadingStrategies readingStrategies, BookRate bookRate, String oneLineReview, String readingReason, String bookContent, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.reviewer = reviewer;
         this.title = title;
         this.bookInfo = bookInfo;
-        this.startedReadingDate = startedReadingDate;
-        this.endReadingDate = endReadingDate;
-        this.recordDate = recordDate;
-        this.toolId = toolId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.bookReadingMethod = bookReadingMethod;
         this.readingStrategies = readingStrategies;
         this.bookRate = bookRate;
         this.oneLineReview = oneLineReview;
         this.readingReason = readingReason;
         this.bookContent = bookContent;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
     }
-    public static BookReview of(Long userId, String title, BookInfo bookInfo, LocalDateTime startedReadingDate, LocalDateTime endReadingDate, LocalDateTime recordDate, int toolId, ReadingStrategies readingStrategies, int bookRate, String oneLineReview, String readingReason, String bookContent) {
-        return new BookReview(userId, title, bookInfo, startedReadingDate, endReadingDate, recordDate, toolId, readingStrategies, bookRate, oneLineReview, readingReason, bookContent);
+
+    private static BookReview of(Reviewer reviewer, String title, BookInfo bookInfo, LocalDateTime startDate, LocalDateTime endDate, BookReadingMethod bookReadingMethod, ReadingStrategies readingStrategies, BookRate bookRate, String oneLineReview, String readingReason, String bookContent, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        return new BookReview(reviewer,title,bookInfo,startDate,endDate,bookReadingMethod,readingStrategies,bookRate,oneLineReview, readingReason, bookContent, createdAt, modifiedAt);
+    }
+
+    private static BookReview of(Reviewer reviewer) {
+        return new BookReview(reviewer,null,null,null,null,null,null,null,null, null, null, null, null);
     }
 
     @Override
