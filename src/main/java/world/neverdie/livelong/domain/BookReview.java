@@ -31,9 +31,9 @@ public class BookReview {   // 책 리뷰 적기
     @Setter private int readingMethodId; //TODO 책 읽은 방법 추가하면 변경 예정
     @Setter private int readingStrategy;   //독서 전략 TODO enum? 테이블?
     @Setter @Column(length = 100) private String oneLineComment;   //한줄 리뷰, 인덱싱 걸기
-    @Setter private String readingReasons;  // 책선정이유
-    @Setter private String content; // 책 비고
-    @Setter private String review;  // 책감상
+    @Setter @Column(columnDefinition = "TEXT") private String readingReasons;  // 책선정이유
+    @Setter @Column(columnDefinition = "TEXT") private String content; // 책 비고
+    @Setter @Column(columnDefinition = "TEXT") private String review;  // 책감상
 
     //메타데이터
     @CreatedBy private LocalDateTime createdBy;
