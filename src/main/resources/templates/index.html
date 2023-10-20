@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <header></header> <!-- 나중에 타임리프로 대체-->
+  <section>
+    <h1>책 정보 입력</h1>
+    <form action="/saveBookInfo" method="POST">
+      <label for="review_title">제목:</label>
+      <input type="text" id="review_title" name="title" maxlength="100" value="제목없음">
+      <br>
+
+      <label for="book_info">책 정보 ID:</label>
+      <input type="text" name="bookInfoId" id="book_info">
+      <br>
+
+      <label for="start_date">시작일:</label>
+      <input type="datetime-local" name="startDate" id="start_date">
+      <br>
+
+      <label for="end_date">종료일:</label>
+      <input type="datetime-local" name="endDate" id="end_date">
+      <br>
+
+      <label for="reading_method">책 읽은 방법 ID:</label>
+      <input type="text" name="readingMethodId" id="reading_method">
+      <br>
+
+      <label for="reading_strategy">독서 전략:</label>
+      <input type="text" name="readingStrategy" id="reading_strategy">
+      <br>
+
+      <label for="one_line_comment">한줄 리뷰:</label>
+      <input type="text" name="oneLineComment" maxlength="100" id="one_line_comment">
+      <br>
+
+      <label for="reading_reasons">책선정이유:</label>
+      <input type="text" name="readingReasons" id="reading_reasons">
+      <br>
+
+      <label for="book_review_content">책 비고:</label>
+      <input type="text" name="content" id="book_review_content">
+      <br>
+
+      <label for="book_review">책감상:</label>
+      <input type="text" name="review" id="book_review">
+      <br>
+
+      <input type="submit" value="저장">
+    </form>
+  </section>
+  <footer></footer> <!-- 나중에 타임리프로 대체-->
+</body>
+</html>
